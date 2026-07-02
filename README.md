@@ -8,19 +8,21 @@ AstroVoxis uses a modular architecture for real-time voice processing:
 
 ```mermaid
 graph TD
-    User((User)) <-->|WebRTC (Audio)| LiveKit[LiveKit Cloud]
-    LiveKit <-->|WebRTC (Audio)| Agent[AstroVoxis Agent Worker]
+    User((User)) -->|WebRTC Audio In| LiveKit[LiveKit Cloud]
+    LiveKit -->|WebRTC Audio Out| User
+    LiveKit -->|Audio Stream| Agent[AstroVoxis Agent Worker]
+    Agent -->|Audio Stream| LiveKit
     
     subgraph AI Processing Pipeline
         Agent -->|1. Raw Audio| VAD[Silero VAD]
-        VAD -->|2. Speech Detected| STT[OpenAI STT<br/>Speech-to-Text]
-        STT -->|3. Transcribed Text| LLM[Google Gemini<br/>Core Brain]
-        LLM -->|4. Response Text| TTS[OpenAI TTS<br/>Text-to-Speech]
+        VAD -->|2. Speech Detected| STT["OpenAI STT<br/>Speech-to-Text"]
+        STT -->|3. Transcribed Text| LLM["Google Gemini<br/>Core Brain"]
+        LLM -->|4. Response Text| TTS["OpenAI TTS<br/>Text-to-Speech"]
         TTS -->|5. Synthesized Audio| Agent
     end
 
     subgraph Function Calling / Tools
-        LLM -.->|Calls API| API[api.py<br/>Smart Home Tools]
+        LLM -.->|Calls API| API["api.py<br/>Smart Home Tools"]
         API -.->|Returns Data| LLM
     end
     
