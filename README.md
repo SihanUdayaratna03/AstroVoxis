@@ -1,4 +1,4 @@
-# AstroVoxis 🚀
+# AstroVoxis a Simple Voice Agent 🚀
 
 AstroVoxis is a next-generation AI voice assistant that leverages the real-time capabilities of LiveKit combined with the reasoning power of Google Gemini and the lightning-fast voice models from OpenAI.
 
